@@ -1,0 +1,139 @@
+[
+    {
+        "name": "firstName",
+        "label": "First Name",
+        "type": "text",
+        "defaultValue": "John"
+    },
+    {
+        "name": "lastName",
+        "label": "Last Name",
+        "type": "text",
+        "defaultValue": "Doe"
+    },
+    {
+        "name": "employmentStatus",
+        "label": "Employment Status",
+        "type": "select",
+        "options": [
+            {
+                "label": "Employed",
+                "value": "employed"
+            },
+            {
+                "label": "Self-Employed",
+                "value": "self-employed"
+            },
+            {
+                "label": "Student",
+                "value": "student"
+            },
+            {
+                "label": "Unemployed",
+                "value": "unemployed"
+            }
+        ]
+    },
+    {
+        "name": "companyName",
+        "label": "Company Name",
+        "type": "text",
+        "visibility": {
+            "fieldName": "employmentStatus",
+            "value": "employed"
+        }
+    },
+    {
+        "name": "businessType",
+        "label": "Business Type",
+        "type": "select",
+        "options": [
+            {
+                "label": "Sole Proprietorship",
+                "value": "sole-proprietorship"
+            },
+            {
+                "label": "Partnership",
+                "value": "partnership"
+            },
+            {
+                "label": "LLC",
+                "value": "llc"
+            }
+        ],
+        "visibility": {
+            "fieldName": "employmentStatus",
+            "value": "self-employed"
+        }
+    },
+    {
+        "name": "schoolName",
+        "label": "School Name",
+        "type": "text",
+        "visibility": {
+            "fieldName": "employmentStatus",
+            "value": "student"
+        }
+    },
+    {
+        "name": "degreeType",
+        "label": "Degree Type",
+        "type": "select",
+        "options": [
+            {
+                "label": "Bachelor's",
+                "value": "bachelors"
+            },
+            {
+                "label": "Master's",
+                "value": "masters"
+            },
+            {
+                "label": "PhD",
+                "value": "phd"
+            }
+        ],
+        "visibility": {
+            "fieldName": "employmentStatus",
+            "value": "student"
+        }
+    },
+    {
+        "name": "jobSearchDuration",
+        "label": "How long have you been looking for a job?",
+        "type": "select",
+        "options": [
+            {
+                "label": "Less than 1 month",
+                "value": "less-than-1month"
+            },
+            {
+                "label": "1-3 months",
+                "value": "1-3months"
+            },
+            {
+                "label": "3-6 months",
+                "value": "3-6months"
+            },
+            {
+                "label": "More than 6 months",
+                "value": "more-than-6months"
+            }
+        ],
+        "visibility": {
+            "fieldName": "employmentStatus",
+            "value": "unemployed"
+        }
+    },
+    {
+        "name": "nobelPrize",
+        "label": "Nobel Prize",
+        "tpe": "textarea",
+        "type": "text",
+        "defaultValue": "Won the Physics Nobel Prize in 1921",
+        "visibility": {
+            "fieldName": "firstName",
+            "value": "Jane"
+        }
+    }
+]

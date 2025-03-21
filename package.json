@@ -1,0 +1,43 @@
+{
+  "name": "angular-dynamic-form-demo",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^19.2.3",
+    "@angular/common": "^19.2.3",
+    "@angular/compiler": "^19.2.3",
+    "@angular/core": "^19.2.3",
+    "@angular/forms": "^19.2.3",
+    "@angular/platform-browser": "^19.2.3",
+    "@angular/platform-browser-dynamic": "^19.2.3",
+    "@angular/router": "^19.2.3",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.2.4",
+    "@angular/cli": "^19.2.4",
+    "@angular/compiler-cli": "^19.2.3",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.2",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.1",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.5.0"
+  },
+  "overrides": {
+    "glob": "^10.3.10",
+    "rimraf": "^5.0.5",
+    "inflight": "npm:lru-cache@^10.2.0"
+  }
+}
