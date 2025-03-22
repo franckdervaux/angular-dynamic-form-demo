@@ -95,9 +95,6 @@ export class FormFieldComponent implements OnInit {
     const control = this.form.get(this.field.name)
     if (!control) return
 
-    // Initialize the signal with the current value
-    this.value.set(control.value)
-
     // Connect form control to signal
     control.valueChanges.pipe(
       takeUntilDestroyed(this.destroyRef)
