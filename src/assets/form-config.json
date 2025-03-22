@@ -1,19 +1,19 @@
 [
     {
         "name": "firstName",
-        "label": "First Name",
+        "label": "Prénom (essayez Marie ou Jim)",
         "type": "text",
         "defaultValue": "John"
     },
     {
         "name": "lastName",
-        "label": "Last Name",
+        "label": "Nom",
         "type": "text",
         "defaultValue": "Doe"
     },
     {
         "name": "employmentStatus",
-        "label": "Employment Status",
+        "label": "Statut",
         "type": "select",
         "options": [
             {
@@ -36,7 +36,7 @@
     },
     {
         "name": "companyName",
-        "label": "Company Name",
+        "label": "Entreprise",
         "type": "text",
         "visibility": {
             "fieldName": "employmentStatus",
@@ -48,7 +48,7 @@
     },
     {
         "name": "businessType",
-        "label": "Business Type",
+        "label": "Type de Rôle",
         "type": "select",
         "options": [
             {
@@ -74,7 +74,7 @@
     },
     {
         "name": "schoolName",
-        "label": "School Name",
+        "label": "École",
         "type": "text",
         "visibility": {
             "fieldName": "employmentStatus",
@@ -86,7 +86,7 @@
     },
     {
         "name": "degreeType",
-        "label": "Degree Type",
+        "label": "Type de diplôme",
         "type": "select",
         "options": [
             {
@@ -112,7 +112,7 @@
     },
     {
         "name": "jobSearchDuration",
-        "label": "How long have you been looking for a job?",
+        "label": "Durée de recherche d'emploi",
         "type": "select",
         "options": [
             {
@@ -142,15 +142,15 @@
     },
     {
         "name": "nobelPrize",
-        "label": "Nobel Prize",
+        "label": "Prix Nobel",
         "tpe": "textarea",
         "type": "text",
-        "defaultValue": "Won the Physics Nobel Prize in 1921",
+        "defaultValue": "A gagné le prix Nobel de physique en 1921",
         "visibility": {
             "fieldName": "firstName",
             "operator": "in",
             "values": [
-                "Jane",
+                "Marie",
                 "Jim"
             ]
         }
@@ -166,6 +166,25 @@
             "values": [
                 "Doe",
                 "Excluded"
+            ]
+        }
+    },
+    {
+        "name": "urgence",
+        "label": "Urgence",
+        "type": "checkbox",
+        "defaultValue": false
+    },
+    {
+        "name": "urgenctCase",
+        "label": "Seulement affiché en cas d'urgence",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "fieldName": "urgence",
+            "operator": "in",
+            "values": [
+                true
             ]
         }
     }

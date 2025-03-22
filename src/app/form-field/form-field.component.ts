@@ -12,17 +12,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   template: `
         @if (isVisible()) {
             <div class="field-container" [formGroup]="form">
-                <label [for]="field.name">{{field.label}}</label>
-                
                 @switch (field.type) {
                     @case ('text') {
+                        <label [for]="field.name">{{field.label}}</label>
                         <input 
                             type="text"
-                            
                             [id]="field.name" 
                             [formControlName]="field.name">
                     }
                     @case ('select') {
+                        <label [for]="field.name">{{field.label}}</label>
                         <select 
                             [id]="field.name" 
                             [formControlName]="field.name">
@@ -33,12 +32,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
                         </select>
                     }
                     @case ('checkbox') {
-                        <input 
-                            type="checkbox" 
-                            [id]="field.name" 
-                            [formControlName]="field.name">
+                        <div class="checkbox-container">
+                            <input 
+                                type="checkbox" 
+                                [id]="field.name" 
+                                [formControlName]="field.name">
+                            <label [for]="field.name">{{field.label}}</label>
+                        </div>
                     }
                     @default {
+                        <label [for]="field.name">{{field.label}}</label>
                         <input 
                             type="text" 
                             [id]="field.name" 
@@ -49,23 +52,32 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
         }
     `,
   styles: [`
-        .field-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-        
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input, select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    `]
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checkbox-container input[type="checkbox"] {
+      margin: 0;
+    }
+
+    .field-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+    
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    input, select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+`]
 })
 export class FormFieldComponent implements OnInit {
   @Input() field!: FormField
