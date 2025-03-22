@@ -1,0 +1,6 @@
+{
+    "type": "setting",
+    "settings": {
+      "debug.javascript.usePreview": true
+    }  
+}

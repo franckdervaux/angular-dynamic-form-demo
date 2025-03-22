@@ -83,9 +83,7 @@ export class FormFieldComponent implements OnInit {
   @Input() field!: FormField
   @Input() form!: FormGroup
   @Input() allFieldValues!: { [key: string]: any }
-
-  // Signal for this field's value
-  private value: WritableSignal<any> = signal(null);
+  @Input() value!: WritableSignal<any>
 
   // Computed signal for visibility
   isVisible: Signal<boolean> = signal(true);

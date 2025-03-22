@@ -20,7 +20,8 @@ import { FormField } from './models/from-field.model'
                     <app-form-field 
                         [field]="field" 
                         [form]="form()!"
-                        [allFieldValues]="fieldValues">
+                        [allFieldValues]="fieldValues"
+                        [value]="fieldValues[field.name]">
                     </app-form-field>
                 }
             </div>
@@ -111,6 +112,7 @@ export class AppComponent implements OnInit {
         this.formFields().forEach(field => {
             // Initialize with default value if provided, otherwise empty string
             formControls[field.name] = [field.defaultValue || '']
+            this.fieldValues[field.name] = signal(field.defaultValue || '')
         })
 
         this.form.set(this.fb.group(formControls))
