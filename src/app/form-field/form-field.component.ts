@@ -98,9 +98,6 @@ export class FormFieldComponent implements OnInit {
     // Initialize the signal with the current value
     this.value.set(control.value)
 
-    // Register this field's value signal in the parent's registry
-    this.allFieldValues[this.field.name] = this.value
-
     // Connect form control to signal
     control.valueChanges.pipe(
       takeUntilDestroyed(this.destroyRef)
