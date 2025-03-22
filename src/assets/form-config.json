@@ -40,7 +40,10 @@
         "type": "text",
         "visibility": {
             "fieldName": "employmentStatus",
-            "value": "employed"
+            "operator": "in",
+            "values": [
+                "employed"
+            ]
         }
     },
     {
@@ -63,7 +66,10 @@
         ],
         "visibility": {
             "fieldName": "employmentStatus",
-            "value": "self-employed"
+            "operator": "in",
+            "values": [
+                "self-employed"
+            ]
         }
     },
     {
@@ -72,7 +78,10 @@
         "type": "text",
         "visibility": {
             "fieldName": "employmentStatus",
-            "value": "student"
+            "operator": "in",
+            "values": [
+                "student"
+            ]
         }
     },
     {
@@ -95,7 +104,10 @@
         ],
         "visibility": {
             "fieldName": "employmentStatus",
-            "value": "student"
+            "operator": "in",
+            "values": [
+                "student"
+            ]
         }
     },
     {
@@ -122,7 +134,10 @@
         ],
         "visibility": {
             "fieldName": "employmentStatus",
-            "value": "unemployed"
+            "operator": "in",
+            "values": [
+                "unemployed"
+            ]
         }
     },
     {
@@ -133,7 +148,25 @@
         "defaultValue": "Won the Physics Nobel Prize in 1921",
         "visibility": {
             "fieldName": "firstName",
-            "value": "Jane"
+            "operator": "in",
+            "values": [
+                "Jane",
+                "Jim"
+            ]
+        }
+    },
+    {
+        "name": "exclusion",
+        "label": "Is shown only if lastName is not Doe or Excluded",
+        "type": "text",
+        "defaultValue": "I am not Doe!",
+        "visibility": {
+            "fieldName": "lastName",
+            "operator": "notIn",
+            "values": [
+                "Doe",
+                "Excluded"
+            ]
         }
     }
 ]

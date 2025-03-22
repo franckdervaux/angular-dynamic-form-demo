@@ -100,7 +100,7 @@ export class FormFieldComponent implements OnInit {
 
     // Set up visibility rules if applicable
     if (this.field.visibility) {
-      const { fieldName, value } = this.field.visibility
+      const { fieldName, values, operator } = this.field.visibility
 
       // Create computed signal that depends on the referenced field
       this.isVisible = computed(() => {
@@ -108,8 +108,17 @@ export class FormFieldComponent implements OnInit {
         const dependencySignal = this.allFieldValues[fieldName]
         if (!dependencySignal) return true
 
-        // Compare the dependency field's value to the expected value
-        return dependencySignal() === value
+        if (operator === 'in') {
+          // Compare the dependency field's value to the list of values
+          return values.includes(dependencySignal())
+        }
+
+        if (operator === 'notIn') {
+          // Compare the dependency field's value to the list of values
+          return !values.includes(dependencySignal())
+        }
+
+        return true
       })
     }
   }
