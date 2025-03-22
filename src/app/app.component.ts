@@ -1,5 +1,5 @@
 // app.component.ts
-import { Component, OnInit, computed, signal } from '@angular/core'
+import { Component, OnInit, computed, signal, effect, WritableSignal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { HttpClient, HttpClientModule } from '@angular/common/http'
@@ -65,20 +65,27 @@ export class AppComponent implements OnInit {
     formFields = signal<FormField[]>([]);
     form = signal<FormGroup | null>(null);
 
-    // Computed value to safely access the form values for display
-    formValues = computed(() => {
-        const currentForm = this.form()
-        if (!currentForm) return {}
-        return { ...currentForm.value }
-    });
-
     // Registry of field values - will be populated by child components
     fieldValues: { [key: string]: any } = {};
+    formValues: WritableSignal<{ [key: string]: any }> = signal({});
 
     constructor(
         private fb: FormBuilder,
         private http: HttpClient
-    ) { }
+    ) {
+        effect(() => {
+            const currentForm = this.form()
+            if (currentForm) {
+                this.formValues.set(currentForm.value)
+                const subscription = currentForm.valueChanges.subscribe(values => {
+                    this.formValues.set(values)
+                })
+                return () => subscription.unsubscribe()
+            }
+            return () => { }
+        })
+
+    }
 
     ngOnInit() {
         this.loadFormConfig()
