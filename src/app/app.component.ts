@@ -1,10 +1,10 @@
 // app.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormFieldComponent } from './form-field/form-field.component';
-import { FormField, FormFieldVisibility } from './models/from-field.model'
+import { Component, OnInit, computed, signal } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { FormFieldComponent } from './form-field/form-field.component'
+import { FormField } from './models/from-field.model'
 
 @Component({
     selector: 'app-root',
@@ -14,25 +14,20 @@ import { FormField, FormFieldVisibility } from './models/from-field.model'
     <div class="container">
         <h1>Dynamic Form Fields Demo</h1>
         
-        <div>Debug Info:</div>
-        <div>Form Fields: {{formFields.length}}</div>
-        <div>Form Valid: {{form?.valid}}</div>
-        
-        @if (form) {
-            <div [formGroup]="form" class="form-container">
-                @for (field of formFields; track field.name) {
-                    @if (isFieldVisible(field)) {
-                        <app-form-field 
-                            [field]="field" 
-                            [form]="form">
-                        </app-form-field>
-                    }
+       @if (form()) {
+            <div [formGroup]="form()!" class="form-container">
+                @for (field of formFields(); track field.name) {
+                    <app-form-field 
+                        [field]="field" 
+                        [form]="form()!"
+                        [allFieldValues]="fieldValues">
+                    </app-form-field>
                 }
             </div>
             
             <div class="form-values">
                 <h3>Current Form Values:</h3>
-                <pre>{{ form.value | json }}</pre>
+                <pre>{{ formValues() | json }}</pre>
             </div>
         }
     </div>
@@ -66,8 +61,19 @@ import { FormField, FormFieldVisibility } from './models/from-field.model'
   `]
 })
 export class AppComponent implements OnInit {
-    form!: FormGroup;
-    formFields: FormField[] = [];
+    // Main form signals
+    formFields = signal<FormField[]>([]);
+    form = signal<FormGroup | null>(null);
+
+    // Computed value to safely access the form values for display
+    formValues = computed(() => {
+        const currentForm = this.form()
+        if (!currentForm) return {}
+        return { ...currentForm.value }
+    });
+
+    // Registry of field values - will be populated by child components
+    fieldValues: { [key: string]: any } = {};
 
     constructor(
         private fb: FormBuilder,
@@ -75,45 +81,31 @@ export class AppComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loadFormConfig();
+        this.loadFormConfig()
     }
 
     loadFormConfig() {
         this.http.get<FormField[]>('assets/form-config.json')
             .subscribe({
                 next: (fields) => {
-                    console.log('Loaded fields:', fields);
-                    this.formFields = fields;
-                    this.buildForm();
+                    console.log('Loaded fields:', fields)
+                    this.formFields.set(fields)
+                    this.buildForm()
                 },
                 error: (error) => {
-                    console.error('Error loading form config:', error);
+                    console.error('Error loading form config:', error)
                 }
-            });
+            })
     }
 
     buildForm() {
-        const formControls: { [key: string]: any } = {};
+        const formControls: { [key: string]: any } = {}
 
-        this.formFields.forEach(field => {
+        this.formFields().forEach(field => {
             // Initialize with default value if provided, otherwise empty string
-            formControls[field.name] = [field.defaultValue || ''];
-        });
+            formControls[field.name] = [field.defaultValue || '']
+        })
 
-        this.form = this.fb.group(formControls);
-
-        // Subscribe to value changes to handle visibility rules
-        this.form.valueChanges.subscribe(() => {
-            // This will trigger change detection when form values change
-        });
-    }
-
-    isFieldVisible(field: FormField): boolean {
-        if (!field.visibility) {
-            return true;
-        }
-
-        const refFieldValue = this.form.get(field.visibility.fieldName)?.value;
-        return refFieldValue === field.visibility.value;
+        this.form.set(this.fb.group(formControls))
     }
 }

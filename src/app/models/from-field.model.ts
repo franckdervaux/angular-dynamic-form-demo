@@ -12,7 +12,7 @@ export interface FormFieldVisibility {
 export interface FormField {
     name: string;
     label: string;
-    type: 'text' | 'select';
+    type: 'text' | 'select' | 'checkbox';
     options?: FormFieldOption[];
     visibility?: FormFieldVisibility;
     defaultValue?: any;
