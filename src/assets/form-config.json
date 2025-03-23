@@ -182,9 +182,66 @@
         "defaultValue": "",
         "visibility": {
             "fieldName": "urgence",
-            "operator": "in",
-            "values": [
-                true
+            "operator": "true"
+        }
+    },
+    {
+        "name": "nonUrgentCase",
+        "label": "Seulement affiché en cas de non-urgence",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "fieldName": "urgence",
+            "operator": "false"
+        }
+    },
+    {
+        "name": "andCase",
+        "label": "Seulement affiché pour John Doe",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "operator": "and",
+            "conditions": [
+                {
+                    "fieldName": "firstName",
+                    "operator": "in",
+                    "values": [
+                        "John"
+                    ]
+                },
+                {
+                    "fieldName": "lastName",
+                    "operator": "in",
+                    "values": [
+                        "Doe"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "name": "orCase",
+        "label": "Seulement affiché si prénom est John ou nom est Doe",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "operator": "or",
+            "conditions": [
+                {
+                    "fieldName": "firstName",
+                    "operator": "in",
+                    "values": [
+                        "John"
+                    ]
+                },
+                {
+                    "fieldName": "lastName",
+                    "operator": "in",
+                    "values": [
+                        "Doe"
+                    ]
+                }
             ]
         }
     }

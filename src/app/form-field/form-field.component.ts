@@ -2,7 +2,7 @@
 import { Component, Input, OnInit, Signal, WritableSignal, computed, signal, DestroyRef, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { FormField } from '../models/from-field.model'
+import { Condition, FormField } from '../models/from-field.model'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
@@ -102,28 +102,54 @@ export class FormFieldComponent implements OnInit {
       this.value.set(newValue)
     })
 
+    const evaluateCondition = (condition: Condition) => {
+
+      // Boolean Conditions
+      if (condition.operator === 'true') {
+        const dependencySignal = this.allFieldValues[condition.fieldName]
+        if (!dependencySignal) return true
+        // Check if the dependency field is true
+        return dependencySignal()
+      }
+
+      if (condition.operator === 'false') {
+        const dependencySignal = this.allFieldValues[condition.fieldName]
+        if (!dependencySignal) return true
+        // Check if the dependency field is false
+        return !dependencySignal()
+      }
+
+      // Simple Conditions
+      if (condition.operator === 'in') {
+        const dependencySignal = this.allFieldValues[condition.fieldName]
+        if (!dependencySignal) return true
+        // Compare the dependency field's value to the list of values
+        return condition.values.includes(dependencySignal())
+      }
+
+      if (condition.operator === 'notIn') {
+        const dependencySignal = this.allFieldValues[condition.fieldName]
+        if (!dependencySignal) return true
+        // Compare the dependency field's value to the list of values
+        return !condition.values.includes(dependencySignal())
+      }
+
+      // Nested Conditions
+      if (condition.operator === 'and') {
+        return condition.conditions.every(evaluateCondition)
+      }
+
+      if (condition.operator === 'or') {
+        return condition.conditions.some(evaluateCondition)
+      }
+
+      return true
+    }
+
     // Set up visibility rules if applicable
     if (this.field.visibility) {
-      const { fieldName, values, operator } = this.field.visibility
-
       // Create computed signal that depends on the referenced field
-      this.isVisible = computed(() => {
-        // Get the signal for the dependency field
-        const dependencySignal = this.allFieldValues[fieldName]
-        if (!dependencySignal) return true
-
-        if (operator === 'in') {
-          // Compare the dependency field's value to the list of values
-          return values.includes(dependencySignal())
-        }
-
-        if (operator === 'notIn') {
-          // Compare the dependency field's value to the list of values
-          return !values.includes(dependencySignal())
-        }
-
-        return true
-      })
+      this.isVisible = computed(() => evaluateCondition(this.field.visibility!))
     }
   }
 }
