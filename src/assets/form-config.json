@@ -244,5 +244,27 @@
                 }
             ]
         }
+    },
+    {
+        "name": "nestedOrCase",
+        "label": "Seulement affiché si non urgent ou nom est Dervaux",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "operator": "or",
+            "conditions": [
+                {
+                    "fieldName": "urgence",
+                    "operator": "false"
+                },
+                {
+                    "fieldName": "lastName",
+                    "operator": "in",
+                    "values": [
+                        "Dervaux"
+                    ]
+                }
+            ]
+        }
     }
 ]
