@@ -2,7 +2,7 @@
 import { Component, Input, OnInit, Signal, WritableSignal, computed, signal, DestroyRef, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { Condition, FormField } from '../models/from-field.model'
+import { Condition, FormField, NestedCondition } from '../models/from-field.model'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
@@ -102,47 +102,47 @@ export class FormFieldComponent implements OnInit {
       this.value.set(newValue)
     })
 
+    const isNestedCondition = (condition: Condition): condition is NestedCondition => {
+      return condition.operator === 'and' || condition.operator === 'or'
+    }
+
     const evaluateCondition = (condition: Condition) => {
 
-      // Boolean Conditions
-      if (condition.operator === 'true') {
+      if (!isNestedCondition(condition)) {
         const dependencySignal = this.allFieldValues[condition.fieldName]
         if (!dependencySignal) return true
+
         // Check if the dependency field is true
-        return dependencySignal()
-      }
+        // Boolean Conditions
+        if (condition.operator === 'true') {
+          return dependencySignal()
+        }
 
-      if (condition.operator === 'false') {
-        const dependencySignal = this.allFieldValues[condition.fieldName]
-        if (!dependencySignal) return true
-        // Check if the dependency field is false
-        return !dependencySignal()
-      }
+        if (condition.operator === 'false') {
+          // Check if the dependency field is false
+          return !dependencySignal()
+        }
 
-      // Simple Conditions
-      if (condition.operator === 'in') {
-        const dependencySignal = this.allFieldValues[condition.fieldName]
-        if (!dependencySignal) return true
-        // Compare the dependency field's value to the list of values
-        return condition.values.includes(dependencySignal())
-      }
+        // Simple Conditions
+        if (condition.operator === 'in') {
+          // Compare the dependency field's value to the list of values
+          return condition.values.includes(dependencySignal())
+        }
 
-      if (condition.operator === 'notIn') {
-        const dependencySignal = this.allFieldValues[condition.fieldName]
-        if (!dependencySignal) return true
-        // Compare the dependency field's value to the list of values
-        return !condition.values.includes(dependencySignal())
-      }
+        if (condition.operator === 'notIn') {
+          // Compare the dependency field's value to the list of values
+          return !condition.values.includes(dependencySignal())
+        }
+      } else {
+        // Nested Conditions
+        if (condition.operator === 'and') {
+          return condition.conditions.every(evaluateCondition)
+        }
 
-      // Nested Conditions
-      if (condition.operator === 'and') {
-        return condition.conditions.every(evaluateCondition)
+        if (condition.operator === 'or') {
+          return condition.conditions.some(evaluateCondition)
+        }
       }
-
-      if (condition.operator === 'or') {
-        return condition.conditions.some(evaluateCondition)
-      }
-
       return true
     }
 
