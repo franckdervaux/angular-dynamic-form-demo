@@ -266,5 +266,39 @@
                 }
             ]
         }
+    },
+    {
+        "name": "deeplyNestedOrCase",
+        "label": "Seulement affiché si urgent ou si nom est Dervaux et prénom est Franck",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "operator": "or",
+            "conditions": [
+                {
+                    "fieldName": "urgence",
+                    "operator": "true"
+                },
+                {
+                    "operator": "and",
+                    "conditions": [
+                        {
+                            "fieldName": "lastName",
+                            "operator": "in",
+                            "values": [
+                                "Dervaux"
+                            ]
+                        },
+                        {
+                            "fieldName": "firstName",
+                            "operator": "in",
+                            "values": [
+                                "Franck"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     }
 ]
