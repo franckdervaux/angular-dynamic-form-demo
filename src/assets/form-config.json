@@ -271,7 +271,7 @@
         "name": "deeplyNestedOrCase",
         "label": "Seulement affiché si urgent ou si nom est Dervaux et prénom est Franck",
         "type": "text",
-        "defaultValue": "",
+        "defaultValue": "Super Secret: For Your Eyes Only",
         "visibility": {
             "operator": "or",
             "conditions": [
