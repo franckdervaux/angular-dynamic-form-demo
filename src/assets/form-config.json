@@ -300,5 +300,19 @@
                 }
             ]
         }
+    },
+    {
+        "name": "image",
+        "type": "image",
+        "label": "Entrer un, deux ou trois comme nom ...",
+        "image": {
+            "fieldName": "lastName",
+            "defaultImage": "dolmen.jpg",
+            "valueMap": {
+                "un": "cafe.jpg",
+                "deux": "fleurs.jpg",
+                "trois": "montages.jpg"
+            }
+        }
     }
 ]

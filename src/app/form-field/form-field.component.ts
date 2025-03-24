@@ -40,6 +40,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
                             <label [for]="field.name">{{field.label}}</label>
                         </div>
                     }
+                    @case ('image') {
+                        <label [for]="field.name">{{field.label}}</label>
+                        <img 
+                            [src]="getImage()" 
+                            [alt]="field.label"
+                            class="display-image">
+                    }
                     @default {
                         <label [for]="field.name">{{field.label}}</label>
                         <input 
@@ -77,6 +84,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+
+    .display-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-top: 8px;
+    }
 `]
 })
 export class FormFieldComponent implements OnInit {
@@ -86,7 +100,8 @@ export class FormFieldComponent implements OnInit {
   @Input() value!: WritableSignal<any>
 
   // Computed signal for visibility
-  isVisible: Signal<boolean> = signal(true);
+  isVisible: Signal<boolean> = signal(true)
+  getImage: Signal<string> = signal('')
 
   // Inject DestroyRef for takeUntilDestroyed
   private destroyRef = inject(DestroyRef);
@@ -127,6 +142,18 @@ export class FormFieldComponent implements OnInit {
     if (this.field.visibility) {
       // Create computed signal that depends on the referenced field
       this.isVisible = computed(() => evaluateCondition(this.field.visibility!))
+    }
+
+    if (this.field.image) {
+      this.getImage = computed(() => {
+        const imageDefinition = this.field.image!
+        if (imageDefinition.valueMap) {
+          const imageValue = this.allFieldValues[imageDefinition.fieldName]()
+          return `/assets/${imageDefinition.valueMap[imageValue] || imageDefinition.defaultImage}`
+        }
+
+        return imageDefinition.defaultImage
+      })
     }
   }
 }

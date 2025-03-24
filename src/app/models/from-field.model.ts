@@ -8,8 +8,9 @@ export type FormFieldOption = {
 export type FormField = {
     name: string
     label: string
-    type: 'text' | 'select' | 'checkbox'
+    type: 'text' | 'select' | 'checkbox' | 'image'
     options?: FormFieldOption[]
+    image?: ImageDefinition
     visibility?: Condition
     defaultValue?: any
 }
@@ -31,3 +32,9 @@ export type NestedCondition = {
 }
 
 export type Condition = SimpleCondition | BooleanCondition | NestedCondition
+
+export type ImageDefinition = {
+    fieldName: string
+    defaultImage: string
+    valueMap: { [key: string]: string }
+}
