@@ -44,7 +44,6 @@ import { FormField } from './models/from-field.model'
     .form-container {
       display: flex;
       flex-direction: column;
-      gap: 20px;
       margin-top: 20px;
     }
     
