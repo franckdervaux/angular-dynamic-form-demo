@@ -102,48 +102,25 @@ export class FormFieldComponent implements OnInit {
       this.value.set(newValue)
     })
 
-    const isNestedCondition = (condition: Condition): condition is NestedCondition => {
-      return condition.operator === 'and' || condition.operator === 'or'
-    }
-
     const evaluateCondition = (condition: Condition) => {
 
-      if (!isNestedCondition(condition)) {
-        const dependencySignal = this.allFieldValues[condition.fieldName]
-        if (!dependencySignal) return true
-
-        // Check if the dependency field is true
-        // Boolean Conditions
-        if (condition.operator === 'true') {
+      const dependencySignal = 'fieldName' in condition ? this.allFieldValues[condition.fieldName] : undefined
+      switch (condition.operator) {
+        case 'true':
           return dependencySignal()
-        }
-
-        if (condition.operator === 'false') {
-          // Check if the dependency field is false
+        case 'false':
           return !dependencySignal()
-        }
-
-        // Simple Conditions
-        if (condition.operator === 'in') {
-          // Compare the dependency field's value to the list of values
+        case 'in':
           return condition.values.includes(dependencySignal())
-        }
-
-        if (condition.operator === 'notIn') {
-          // Compare the dependency field's value to the list of values
+        case 'notIn':
           return !condition.values.includes(dependencySignal())
-        }
-      } else {
-        // Nested Conditions
-        if (condition.operator === 'and') {
+        case 'and':
           return condition.conditions.every(evaluateCondition)
-        }
-
-        if (condition.operator === 'or') {
+        case 'or':
           return condition.conditions.some(evaluateCondition)
-        }
+        default:
+          return true
       }
-      return true
     }
 
     // Set up visibility rules if applicable
