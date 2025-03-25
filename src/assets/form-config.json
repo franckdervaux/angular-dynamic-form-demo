@@ -305,6 +305,10 @@
         "name": "image",
         "type": "image",
         "label": "Entrer un, deux ou trois comme nom ...",
+        "visibility": {
+            "fieldName": "urgence",
+            "operator": "true"
+        },
         "image": {
             "fieldName": "lastName",
             "defaultImage": "dolmen.jpg",
