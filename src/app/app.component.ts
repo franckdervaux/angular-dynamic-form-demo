@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { FormFieldComponent } from './form-field/form-field.component'
-import { FormField } from './models/from-field.model'
+import { FormField, TemplateDefinition } from './models/from-field.model'
 
 @Component({
     selector: 'app-root',
@@ -12,7 +12,7 @@ import { FormField } from './models/from-field.model'
     imports: [CommonModule, ReactiveFormsModule, HttpClientModule, FormFieldComponent],
     template: `
     <div class="container">
-        <h1>Dynamic Form Fields Demo</h1>
+        <h1>{{title()}}</h1>
         
        @if (form()) {
             <div [formGroup]="form()!" class="form-container">
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
     // Main form signals
     formFields = signal<FormField[]>([]);
     form = signal<FormGroup | null>(null);
+    title = signal('')
 
     // Registry of field values - will be populated by child components
     fieldValues: { [key: string]: any } = {};
@@ -92,11 +93,12 @@ export class AppComponent implements OnInit {
     }
 
     loadFormConfig() {
-        this.http.get<FormField[]>('assets/form-config.json')
+        this.http.get<TemplateDefinition>('assets/form-config.json')
             .subscribe({
-                next: (fields) => {
-                    console.log('Loaded fields:', fields)
-                    this.formFields.set(fields)
+                next: (template) => {
+                    console.log('Loaded fields:', template)
+                    this.formFields.set(template.fields)
+                    this.title.set(template.name)
                     this.buildForm()
                 },
                 error: (error) => {

@@ -1,47 +1,104 @@
 {
     "title": "Schema for template definition",
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string"
-            },
-            "label": {
-                "type": "string"
-            },
-            "type": {
-                "type": "string"
-            },
-            "defaultValue": {},
-            "options": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "label": {
-                            "type": "string"
-                        },
-                        "value": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "label",
-                        "value"
-                    ]
-                }
-            },
-            "visibility": {
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "for": {
+            "enum": [
+                "Reception",
+                "UM",
+                "Non Conformité",
+                "Urgence"
+            ]
+        },
+        "method": {
+            "enum": [
+                "create",
+                "update"
+            ]
+        },
+        "updated": {
+            "type": "string"
+        },
+        "fields": {
+            "type": "array",
+            "items": {
                 "type": "object",
                 "properties": {
-                    "operator": {
+                    "name": {
                         "type": "string"
                     },
-                    "condition": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "defaultValue": {},
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "label",
+                                "value"
+                            ]
+                        }
+                    },
+                    "visibility": {
                         "type": "object",
                         "properties": {
                             "operator": {
+                                "type": "string"
+                            },
+                            "condition": {
+                                "type": "object",
+                                "properties": {
+                                    "operator": {
+                                        "type": "string"
+                                    },
+                                    "conditions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "fieldName": {
+                                                    "type": "string"
+                                                },
+                                                "operator": {
+                                                    "type": "string"
+                                                },
+                                                "values": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "required": [
+                                                "fieldName",
+                                                "operator",
+                                                "values"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "operator",
+                                    "conditions"
+                                ]
+                            },
+                            "fieldName": {
                                 "type": "string"
                             },
                             "conditions": {
@@ -60,113 +117,88 @@
                                             "items": {
                                                 "type": "string"
                                             }
+                                        },
+                                        "conditions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "fieldName": {
+                                                        "type": "string"
+                                                    },
+                                                    "operator": {
+                                                        "type": "string"
+                                                    },
+                                                    "values": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "fieldName",
+                                                    "operator",
+                                                    "values"
+                                                ]
+                                            }
                                         }
                                     },
                                     "required": [
-                                        "fieldName",
-                                        "operator",
-                                        "values"
+                                        "operator"
                                     ]
+                                }
+                            },
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
                                 }
                             }
                         },
                         "required": [
-                            "operator",
-                            "conditions"
+                            "operator"
                         ]
                     },
-                    "fieldName": {
+                    "tpe": {
                         "type": "string"
                     },
-                    "conditions": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "fieldName": {
-                                    "type": "string"
-                                },
-                                "operator": {
-                                    "type": "string"
-                                },
-                                "values": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "conditions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "fieldName": {
-                                                "type": "string"
-                                            },
-                                            "operator": {
-                                                "type": "string"
-                                            },
-                                            "values": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "required": [
-                                            "fieldName",
-                                            "operator",
-                                            "values"
-                                        ]
-                                    }
-                                }
-                            },
-                            "required": [
-                                "operator"
-                            ]
-                        }
-                    },
-                    "values": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "required": [
-                    "operator"
-                ]
-            },
-            "tpe": {
-                "type": "string"
-            },
-            "image": {
-                "type": "object",
-                "properties": {
-                    "fieldName": {
-                        "type": "string"
-                    },
-                    "defaultImage": {
-                        "type": "string"
-                    },
-                    "valueMap": {
+                    "image": {
                         "type": "object",
-                        "additionalProperties": {
-                            "type": "string"
-                        }
+                        "properties": {
+                            "fieldName": {
+                                "type": "string"
+                            },
+                            "defaultImage": {
+                                "type": "string"
+                            },
+                            "valueMap": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "fieldName",
+                            "defaultImage",
+                            "valueMap"
+                        ]
                     }
                 },
                 "required": [
-                    "fieldName",
-                    "defaultImage",
-                    "valueMap"
+                    "name",
+                    "label",
+                    "type"
                 ]
             }
-        },
-        "required": [
-            "name",
-            "label",
-            "type"
-        ]
-    }
+        }
+    },
+    "required": [
+        "name",
+        "for",
+        "method",
+        "updated",
+        "fields"
+    ]
 }

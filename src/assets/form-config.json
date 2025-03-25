@@ -1,350 +1,356 @@
-[
-    {
-        "name": "firstName",
-        "label": "Prénom (essayez Marie ou Jim)",
-        "type": "text",
-        "defaultValue": "John"
-    },
-    {
-        "name": "lastName",
-        "label": "Nom",
-        "type": "text",
-        "defaultValue": "Doe"
-    },
-    {
-        "name": "employmentStatus",
-        "label": "Statut",
-        "type": "select",
-        "options": [
-            {
-                "label": "Employed",
-                "value": "employed"
-            },
-            {
-                "label": "Self-Employed",
-                "value": "self-employed"
-            },
-            {
-                "label": "Student",
-                "value": "student"
-            },
-            {
-                "label": "Unemployed",
-                "value": "unemployed"
-            }
-        ]
-    },
-    {
-        "name": "companyName",
-        "label": "Entreprise",
-        "type": "text",
-        "visibility": {
-            "fieldName": "employmentStatus",
-            "operator": "in",
-            "values": [
-                "employed"
-            ]
-        }
-    },
-    {
-        "name": "businessType",
-        "label": "Type de Rôle",
-        "type": "select",
-        "options": [
-            {
-                "label": "Sole Proprietorship",
-                "value": "sole-proprietorship"
-            },
-            {
-                "label": "Partnership",
-                "value": "partnership"
-            },
-            {
-                "label": "LLC",
-                "value": "llc"
-            }
-        ],
-        "visibility": {
-            "fieldName": "employmentStatus",
-            "operator": "in",
-            "values": [
-                "self-employed"
-            ]
-        }
-    },
-    {
-        "name": "schoolName",
-        "label": "École",
-        "type": "text",
-        "visibility": {
-            "fieldName": "employmentStatus",
-            "operator": "in",
-            "values": [
-                "student"
-            ]
-        }
-    },
-    {
-        "name": "degreeType",
-        "label": "Type de diplôme",
-        "type": "select",
-        "options": [
-            {
-                "label": "Bachelor's",
-                "value": "bachelors"
-            },
-            {
-                "label": "Master's",
-                "value": "masters"
-            },
-            {
-                "label": "PhD",
-                "value": "phd"
-            }
-        ],
-        "visibility": {
-            "fieldName": "employmentStatus",
-            "operator": "in",
-            "values": [
-                "student"
-            ]
-        }
-    },
-    {
-        "name": "jobSearchDuration",
-        "label": "Durée de recherche d'emploi",
-        "type": "select",
-        "options": [
-            {
-                "label": "Less than 1 month",
-                "value": "less-than-1month"
-            },
-            {
-                "label": "1-3 months",
-                "value": "1-3months"
-            },
-            {
-                "label": "3-6 months",
-                "value": "3-6months"
-            },
-            {
-                "label": "More than 6 months",
-                "value": "more-than-6months"
-            }
-        ],
-        "visibility": {
-            "fieldName": "employmentStatus",
-            "operator": "in",
-            "values": [
-                "unemployed"
-            ]
-        }
-    },
-    {
-        "name": "nobelPrize",
-        "label": "Prix Nobel",
-        "tpe": "textarea",
-        "type": "text",
-        "defaultValue": "A gagné le prix Nobel de physique en 1921",
-        "visibility": {
-            "fieldName": "firstName",
-            "operator": "in",
-            "values": [
-                "Marie",
-                "Jim"
-            ]
-        }
-    },
-    {
-        "name": "exclusion",
-        "label": "Is shown only if lastName is not Doe or Excluded",
-        "type": "text",
-        "defaultValue": "I am not Doe!",
-        "visibility": {
-            "fieldName": "lastName",
-            "operator": "notIn",
-            "values": [
-                "Doe",
-                "Excluded"
-            ]
-        }
-    },
-    {
-        "name": "urgence",
-        "label": "Urgence",
-        "type": "checkbox",
-        "defaultValue": false
-    },
-    {
-        "name": "urgenctCase",
-        "label": "Seulement affiché en cas d'urgence",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "fieldName": "urgence",
-            "operator": "true"
-        }
-    },
-    {
-        "name": "nonUrgentCase",
-        "label": "Seulement affiché en cas de non-urgence",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "fieldName": "urgence",
-            "operator": "false"
-        }
-    },
-    {
-        "name": "andCase",
-        "label": "Seulement affiché pour John Doe",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "operator": "and",
-            "conditions": [
-                {
-                    "fieldName": "firstName",
-                    "operator": "in",
-                    "values": [
-                        "John"
-                    ]
-                },
-                {
-                    "fieldName": "lastName",
-                    "operator": "in",
-                    "values": [
-                        "Doe"
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        "name": "orCase",
-        "label": "Seulement affiché si prénom est John ou nom est Doe",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "operator": "or",
-            "conditions": [
-                {
-                    "fieldName": "firstName",
-                    "operator": "in",
-                    "values": [
-                        "John"
-                    ]
-                },
-                {
-                    "fieldName": "lastName",
-                    "operator": "in",
-                    "values": [
-                        "Doe"
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        "name": "nestedOrCase",
-        "label": "Seulement affiché si non urgent ou nom est Dervaux",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "operator": "or",
-            "conditions": [
-                {
-                    "fieldName": "urgence",
-                    "operator": "false"
-                },
-                {
-                    "fieldName": "lastName",
-                    "operator": "in",
-                    "values": [
-                        "Dervaux"
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        "name": "deeplyNestedOrCase",
-        "label": "Seulement affiché si urgent ou si nom est Dervaux et prénom est Franck",
-        "type": "text",
-        "defaultValue": "Super Secret: For Your Eyes Only",
-        "visibility": {
-            "operator": "or",
-            "conditions": [
-                {
-                    "fieldName": "urgence",
-                    "operator": "true"
-                },
-                {
-                    "operator": "and",
-                    "conditions": [
-                        {
-                            "fieldName": "lastName",
-                            "operator": "in",
-                            "values": [
-                                "Dervaux"
-                            ]
-                        },
-                        {
-                            "fieldName": "firstName",
-                            "operator": "in",
-                            "values": [
-                                "Franck"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        "name": "image",
-        "type": "image",
-        "label": "Entrer un, deux ou trois comme nom ...",
-        "visibility": {
-            "fieldName": "urgence",
-            "operator": "true"
+{
+    "name": "Template de création de réception",
+    "for": "Réception",
+    "method": "create",
+    "updated": "2025-03-25T08:04:27Z",
+    "fields": [
+        {
+            "name": "firstName",
+            "label": "Prénom (essayez Marie ou Jim)",
+            "type": "text",
+            "defaultValue": "John"
         },
-        "image": {
-            "fieldName": "lastName",
-            "defaultImage": "dolmen.jpg",
-            "valueMap": {
-                "un": "cafe.jpg",
-                "deux": "fleurs.jpg",
-                "trois": "montagnes.jpg"
+        {
+            "name": "lastName",
+            "label": "Nom",
+            "type": "text",
+            "defaultValue": "Doe"
+        },
+        {
+            "name": "employmentStatus",
+            "label": "Statut",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Employed",
+                    "value": "employed"
+                },
+                {
+                    "label": "Self-Employed",
+                    "value": "self-employed"
+                },
+                {
+                    "label": "Student",
+                    "value": "student"
+                },
+                {
+                    "label": "Unemployed",
+                    "value": "unemployed"
+                }
+            ]
+        },
+        {
+            "name": "companyName",
+            "label": "Entreprise",
+            "type": "text",
+            "visibility": {
+                "fieldName": "employmentStatus",
+                "operator": "in",
+                "values": [
+                    "employed"
+                ]
             }
-        }
-    },
-    {
-        "name": "notCase",
-        "label": "Seulement affiché si not(nom est Doe ou prénom est John)",
-        "type": "text",
-        "defaultValue": "",
-        "visibility": {
-            "operator": "not",
-            "condition": {
-                "operator": "or",
+        },
+        {
+            "name": "businessType",
+            "label": "Type de Rôle",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Sole Proprietorship",
+                    "value": "sole-proprietorship"
+                },
+                {
+                    "label": "Partnership",
+                    "value": "partnership"
+                },
+                {
+                    "label": "LLC",
+                    "value": "llc"
+                }
+            ],
+            "visibility": {
+                "fieldName": "employmentStatus",
+                "operator": "in",
+                "values": [
+                    "self-employed"
+                ]
+            }
+        },
+        {
+            "name": "schoolName",
+            "label": "École",
+            "type": "text",
+            "visibility": {
+                "fieldName": "employmentStatus",
+                "operator": "in",
+                "values": [
+                    "student"
+                ]
+            }
+        },
+        {
+            "name": "degreeType",
+            "label": "Type de diplôme",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Bachelor's",
+                    "value": "bachelors"
+                },
+                {
+                    "label": "Master's",
+                    "value": "masters"
+                },
+                {
+                    "label": "PhD",
+                    "value": "phd"
+                }
+            ],
+            "visibility": {
+                "fieldName": "employmentStatus",
+                "operator": "in",
+                "values": [
+                    "student"
+                ]
+            }
+        },
+        {
+            "name": "jobSearchDuration",
+            "label": "Durée de recherche d'emploi",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Less than 1 month",
+                    "value": "less-than-1month"
+                },
+                {
+                    "label": "1-3 months",
+                    "value": "1-3months"
+                },
+                {
+                    "label": "3-6 months",
+                    "value": "3-6months"
+                },
+                {
+                    "label": "More than 6 months",
+                    "value": "more-than-6months"
+                }
+            ],
+            "visibility": {
+                "fieldName": "employmentStatus",
+                "operator": "in",
+                "values": [
+                    "unemployed"
+                ]
+            }
+        },
+        {
+            "name": "nobelPrize",
+            "label": "Prix Nobel",
+            "tpe": "textarea",
+            "type": "text",
+            "defaultValue": "A gagné le prix Nobel de physique en 1921",
+            "visibility": {
+                "fieldName": "firstName",
+                "operator": "in",
+                "values": [
+                    "Marie",
+                    "Jim"
+                ]
+            }
+        },
+        {
+            "name": "exclusion",
+            "label": "Is shown only if lastName is not Doe or Excluded",
+            "type": "text",
+            "defaultValue": "I am not Doe!",
+            "visibility": {
+                "fieldName": "lastName",
+                "operator": "notIn",
+                "values": [
+                    "Doe",
+                    "Excluded"
+                ]
+            }
+        },
+        {
+            "name": "urgence",
+            "label": "Urgence",
+            "type": "checkbox",
+            "defaultValue": false
+        },
+        {
+            "name": "urgenctCase",
+            "label": "Seulement affiché en cas d'urgence",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "fieldName": "urgence",
+                "operator": "true"
+            }
+        },
+        {
+            "name": "nonUrgentCase",
+            "label": "Seulement affiché en cas de non-urgence",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "fieldName": "urgence",
+                "operator": "false"
+            }
+        },
+        {
+            "name": "andCase",
+            "label": "Seulement affiché pour John Doe",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "operator": "and",
                 "conditions": [
-                    {
-                        "fieldName": "lastName",
-                        "operator": "in",
-                        "values": [
-                            "Doe"
-                        ]
-                    },
                     {
                         "fieldName": "firstName",
                         "operator": "in",
                         "values": [
                             "John"
                         ]
+                    },
+                    {
+                        "fieldName": "lastName",
+                        "operator": "in",
+                        "values": [
+                            "Doe"
+                        ]
                     }
                 ]
             }
+        },
+        {
+            "name": "orCase",
+            "label": "Seulement affiché si prénom est John ou nom est Doe",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "operator": "or",
+                "conditions": [
+                    {
+                        "fieldName": "firstName",
+                        "operator": "in",
+                        "values": [
+                            "John"
+                        ]
+                    },
+                    {
+                        "fieldName": "lastName",
+                        "operator": "in",
+                        "values": [
+                            "Doe"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "nestedOrCase",
+            "label": "Seulement affiché si non urgent ou nom est Dervaux",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "operator": "or",
+                "conditions": [
+                    {
+                        "fieldName": "urgence",
+                        "operator": "false"
+                    },
+                    {
+                        "fieldName": "lastName",
+                        "operator": "in",
+                        "values": [
+                            "Dervaux"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "deeplyNestedOrCase",
+            "label": "Seulement affiché si urgent ou si nom est Dervaux et prénom est Franck",
+            "type": "text",
+            "defaultValue": "Super Secret: For Your Eyes Only",
+            "visibility": {
+                "operator": "or",
+                "conditions": [
+                    {
+                        "fieldName": "urgence",
+                        "operator": "true"
+                    },
+                    {
+                        "operator": "and",
+                        "conditions": [
+                            {
+                                "fieldName": "lastName",
+                                "operator": "in",
+                                "values": [
+                                    "Dervaux"
+                                ]
+                            },
+                            {
+                                "fieldName": "firstName",
+                                "operator": "in",
+                                "values": [
+                                    "Franck"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "image",
+            "type": "image",
+            "label": "Entrer un, deux ou trois comme nom ...",
+            "visibility": {
+                "fieldName": "urgence",
+                "operator": "true"
+            },
+            "image": {
+                "fieldName": "lastName",
+                "defaultImage": "dolmen.jpg",
+                "valueMap": {
+                    "un": "cafe.jpg",
+                    "deux": "fleurs.jpg",
+                    "trois": "montagnes.jpg"
+                }
+            }
+        },
+        {
+            "name": "notCase",
+            "label": "Seulement affiché si not(nom est Doe ou prénom est John)",
+            "type": "text",
+            "defaultValue": "",
+            "visibility": {
+                "operator": "not",
+                "condition": {
+                    "operator": "or",
+                    "conditions": [
+                        {
+                            "fieldName": "lastName",
+                            "operator": "in",
+                            "values": [
+                                "Doe"
+                            ]
+                        },
+                        {
+                            "fieldName": "firstName",
+                            "operator": "in",
+                            "values": [
+                                "John"
+                            ]
+                        }
+                    ]
+                }
+            }
         }
-    }
-]
+    ]
+}

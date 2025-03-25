@@ -43,3 +43,11 @@ export type ImageDefinition = {
     defaultImage: string
     valueMap: { [key: string]: string }
 }
+
+export type TemplateDefinition = {
+    name: string,
+    for: "Reception" | "UM" | "Non Conformité" | "Urgence",
+    method: "create" | "update",
+    updated: string, // must be a valid ISO 8601 date time string
+    fields: FormField[]
+}
