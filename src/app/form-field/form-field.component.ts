@@ -117,7 +117,7 @@ export class FormFieldComponent implements OnInit {
       this.value.set(newValue)
     })
 
-    const evaluateCondition = (condition: Condition) => {
+    const evaluateCondition = (condition: Condition): boolean => {
 
       const dependencySignal = 'fieldName' in condition ? this.allFieldValues[condition.fieldName] : undefined
       switch (condition.operator) {
@@ -133,6 +133,8 @@ export class FormFieldComponent implements OnInit {
           return condition.conditions.every(evaluateCondition)
         case 'or':
           return condition.conditions.some(evaluateCondition)
+        case 'not':
+          return !evaluateCondition(condition.condition)
         default:
           return true
       }

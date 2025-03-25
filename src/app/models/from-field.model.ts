@@ -31,7 +31,12 @@ export type NestedCondition = {
     conditions: Condition[]
 }
 
-export type Condition = SimpleCondition | BooleanCondition | NestedCondition
+export type NotCondition = {
+    operator: 'not'
+    condition: Condition
+}
+
+export type Condition = SimpleCondition | BooleanCondition | NestedCondition | NotCondition
 
 export type ImageDefinition = {
     fieldName: string

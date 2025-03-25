@@ -318,5 +318,33 @@
                 "trois": "montagnes.jpg"
             }
         }
+    },
+    {
+        "name": "notCase",
+        "label": "Seulement affiché si not(nom est Doe ou prénom est John)",
+        "type": "text",
+        "defaultValue": "",
+        "visibility": {
+            "operator": "not",
+            "condition": {
+                "operator": "or",
+                "conditions": [
+                    {
+                        "fieldName": "lastName",
+                        "operator": "in",
+                        "values": [
+                            "Doe"
+                        ]
+                    },
+                    {
+                        "fieldName": "firstName",
+                        "operator": "in",
+                        "values": [
+                            "John"
+                        ]
+                    }
+                ]
+            }
+        }
     }
 ]
