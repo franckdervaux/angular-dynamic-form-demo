@@ -8,6 +8,7 @@
             "name": "firstName",
             "label": "Prénom (essayez Marie ou Jim)",
             "type": "text",
+            "required": true,
             "defaultValue": "John"
         },
         {
@@ -20,6 +21,7 @@
             "name": "employmentStatus",
             "label": "Statut",
             "type": "select",
+            "required": true,
             "options": [
                 {
                     "label": "Employed",

@@ -14,16 +14,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
             <div class="field-container" [formGroup]="form">
                 @switch (field.type) {
                     @case ('text') {
-                        <label [for]="field.name">{{field.label}}</label>
+                        <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
                         <input 
                             type="text"
                             [id]="field.name" 
+                            [required]="required"
                             [formControlName]="field.name">
                     }
                     @case ('select') {
-                        <label [for]="field.name">{{field.label}}</label>
+                        <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
                         <select 
-                            [id]="field.name" 
+                            [id]="field.name"
+                            [required]="required" 
                             [formControlName]="field.name">
                             <option value="">Select...</option>
                             @for (option of field.options || []; track option.value) {
@@ -35,23 +37,25 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
                         <div class="checkbox-container">
                             <input 
                                 type="checkbox" 
-                                [id]="field.name" 
+                                [id]="field.name"
+                                [required]="required" 
                                 [formControlName]="field.name">
-                            <label [for]="field.name">{{field.label}}</label>
+                            <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
                         </div>
                     }
                     @case ('image') {
-                        <label [for]="field.name">{{field.label}}</label>
+                        <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
                         <img 
                             [src]="getImage()" 
                             [alt]="field.label"
                             class="display-image">
                     }
                     @default {
-                        <label [for]="field.name">{{field.label}}</label>
+                        <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
                         <input 
                             type="text" 
-                            [id]="field.name" 
+                            [id]="field.name"
+                            [required]="required" 
                             [formControlName]="field.name">
                     }
                 }
@@ -91,6 +95,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
         border-radius: 4px;
         margin-top: 8px;
     }
+
+    label.required::after {
+      content: ' *';
+      color: red;
+    }
 `]
 })
 export class FormFieldComponent implements OnInit {
@@ -103,12 +112,16 @@ export class FormFieldComponent implements OnInit {
   isVisible: Signal<boolean> = signal(true)
   getImage: Signal<string> = signal('')
 
+  required: boolean = false
+
   // Inject DestroyRef for takeUntilDestroyed
   private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
     const control = this.form.get(this.field.name)
     if (!control) return
+
+    this.required = this.field.required ?? false
 
     // Connect form control to signal
     control.valueChanges.pipe(

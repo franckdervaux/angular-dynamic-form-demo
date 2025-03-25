@@ -37,6 +37,9 @@
                         "type": "string"
                     },
                     "defaultValue": {},
+                    "required": {
+                        "type": "boolean"
+                    },
                     "options": {
                         "type": "array",
                         "items": {

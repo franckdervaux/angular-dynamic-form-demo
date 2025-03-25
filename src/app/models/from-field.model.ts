@@ -9,6 +9,7 @@ export type FormField = {
     name: string
     label: string
     type: 'text' | 'select' | 'checkbox' | 'image'
+    required?: boolean,
     options?: FormFieldOption[]
     image?: ImageDefinition
     visibility?: Condition
