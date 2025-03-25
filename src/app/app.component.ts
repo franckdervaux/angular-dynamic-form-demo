@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
         this.http.get<TemplateDefinition>('assets/form-config.json')
             .subscribe({
                 next: (template) => {
-                    console.log('Loaded fields:', template)
+                    console.log('Loaded template:', template)
                     this.formFields.set(template.fields)
                     this.title.set(template.name)
                     this.buildForm()
