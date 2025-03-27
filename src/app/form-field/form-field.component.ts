@@ -2,7 +2,7 @@
 import { Component, Input, OnInit, Signal, WritableSignal, computed, signal, DestroyRef, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { Condition, FormField, NestedCondition } from '../models/from-field.model'
+import { Condition, DependentListDefinition, FormField, FormFieldOption, NestedCondition } from '../models/from-field.model'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
@@ -29,6 +29,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
                             [formControlName]="field.name">
                             <option value="">Select...</option>
                             @for (option of field.options || []; track option.value) {
+                                <option [value]="option.value">{{option.label}}</option>
+                            }
+                        </select>
+                    }
+                    @case ('dependentList') {
+                        <label [for]="field.name">{{field.label}}{{required ? ' *' : ''}}</label>
+                        <select 
+                            [id]="field.name"
+                            [required]="required" 
+                            [formControlName]="field.name">
+                            <option value="">Select...</option>
+                            @for (option of getOptions() || []; track option.value) {
                                 <option [value]="option.value">{{option.label}}</option>
                             }
                         </select>
@@ -108,9 +120,10 @@ export class FormFieldComponent implements OnInit {
   @Input() allFieldValues!: { [key: string]: any }
   @Input() value!: WritableSignal<any>
 
-  // Computed signal for visibility
+  // Computed signals
   isVisible: Signal<boolean> = signal(true)
   getImage: Signal<string> = signal('')
+  getOptions: Signal<FormFieldOption[]> = signal([])
 
   required: boolean = false
 
@@ -154,7 +167,7 @@ export class FormFieldComponent implements OnInit {
     }
 
     // Set up visibility rules if applicable
-    if (this.field.visibility) {
+    if (this.field.visibility !== undefined) {
       // Create computed signal that depends on the referenced field
       this.isVisible = computed(() => evaluateCondition(this.field.visibility!))
     }
@@ -168,6 +181,12 @@ export class FormFieldComponent implements OnInit {
         }
 
         return imageDefinition.defaultImage
+      })
+    }
+
+    if (this.field.dependentOptions) {
+      this.getOptions = computed(() => {
+        return (this.field.dependentOptions!.listMap[this.allFieldValues[this.field.dependentOptions!.fieldName]()])
       })
     }
   }

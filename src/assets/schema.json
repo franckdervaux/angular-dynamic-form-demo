@@ -7,7 +7,7 @@
         },
         "for": {
             "enum": [
-                "Reception",
+                "Réception",
                 "UM",
                 "Non Conformité",
                 "Urgence"
@@ -34,7 +34,13 @@
                         "type": "string"
                     },
                     "type": {
-                        "type": "string"
+                        "enum": [
+                            "text",
+                            "select",
+                            "checkbox",
+                            "image",
+                            "dependentList"
+                        ]
                     },
                     "defaultValue": {},
                     "required": {
@@ -163,9 +169,6 @@
                             "operator"
                         ]
                     },
-                    "tpe": {
-                        "type": "string"
-                    },
                     "image": {
                         "type": "object",
                         "properties": {
@@ -187,6 +190,35 @@
                             "defaultImage",
                             "valueMap"
                         ]
+                    },
+                    "dependentOptions": {
+                        "type": "object",
+                        "properties": {
+                            "fieldName": {
+                                "type": "string"
+                            },
+                            "listMap": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "label": {
+                                                "type": "string"
+                                            },
+                                            "value": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "label",
+                                            "value"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "required": [

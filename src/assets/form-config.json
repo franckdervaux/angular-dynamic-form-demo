@@ -353,6 +353,67 @@
                     ]
                 }
             }
+        },
+        {
+            "name": "masterList",
+            "label": "Sélectionner",
+            "type": "select",
+            "options": [
+                {
+                    "label": "Chiffres",
+                    "value": "chiffres"
+                },
+                {
+                    "label": "Lettres",
+                    "value": "lettres"
+                },
+                {
+                    "label": "Autres",
+                    "value": "autres"
+                }
+            ]
+        },
+        {
+            "name": "childlist",
+            "label": "Cette list dépend d'une autre",
+            "type": "dependentList",
+            "dependentOptions": {
+                "fieldName": "masterList",
+                "listMap": {
+                    "chiffres": [
+                        {
+                            "label": "1",
+                            "value": "un"
+                        },
+                        {
+                            "label": "21",
+                            "value": "vingt-et-un"
+                        },
+                        {
+                            "label": "47",
+                            "value": "quarante-sept"
+                        },
+                        {
+                            "label": "17",
+                            "value": "dix-sept"
+                        }
+                    ],
+                    "lettres": [
+                        {
+                            "label": "A",
+                            "value": "a"
+                        },
+                        {
+                            "label": "F",
+                            "value": "f"
+                        },
+                        {
+                            "label": "H",
+                            "value": "h"
+                        }
+                    ]
+                }
+            }
         }
     ]
 }

@@ -8,9 +8,10 @@ export type FormFieldOption = {
 export type FormField = {
     name: string
     label: string
-    type: 'text' | 'select' | 'checkbox' | 'image'
+    type: 'text' | 'select' | 'checkbox' | 'image' | 'dependentList'
     required?: boolean,
     options?: FormFieldOption[]
+    dependentOptions?: DependentListDefinition
     image?: ImageDefinition
     visibility?: Condition
     defaultValue?: any
@@ -51,4 +52,11 @@ export type TemplateDefinition = {
     method: "create" | "update",
     updated: string, // must be a valid ISO 8601 date time string
     fields: FormField[]
+}
+
+export type DependentListDefinition = {
+    fieldName: string
+    listMap: {
+        [key: string]: FormFieldOption[]
+    }
 }
