@@ -8,7 +8,7 @@ import { FormField } from '../../models/from-field.model'
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     template: `
-    <div [formGroup]="form">
+    <div class="field-container" [formGroup]="form">
       <select [formControlName]="field.name">
         <option value="">Select...</option>
         @for (option of getOptions(); track option.value) {
@@ -16,7 +16,21 @@ import { FormField } from '../../models/from-field.model'
         }
       </select>
     </div>
-  `
+  `,
+    styles: [`
+    input, select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .field-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+  `]
 })
 export class DependentListComponent {
     @Input() field!: FormField
