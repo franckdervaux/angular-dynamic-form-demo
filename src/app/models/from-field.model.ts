@@ -1,3 +1,5 @@
+import { Signal } from "@angular/core"
+
 // models/form-field.model.ts
 export type FormFieldOption = {
     label: string
@@ -60,3 +62,5 @@ export type DependentListDefinition = {
         [key: string]: FormFieldOption[]
     }
 }
+
+export type AllFieldsValue = { [key: string]: Signal<any> }
